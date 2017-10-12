@@ -12,5 +12,5 @@ export const HEROES: Hero[] = [
         { id: 19, name: 'Stephen', description: 'The Voice Of Angular (A Techie), JavaScript' },
         { id: 20, name: 'Nils', description: 'Angular Lover, Work Hard | Be Kind | Do More, JavaScript' },
         { id: 21, name: 'Brad', description: 'Angular Manager, Director Of Engineering (Big Brains), JavaScript' },
-        { id: 22, name: 'Matias', description: 'Angular Animations, Animations, Animations Guru, JavaScript'}
+        { id: 22, name: 'Matias', description: 'Angular Animations, Model Technology && Humanity, JavaScript'}
 ];
