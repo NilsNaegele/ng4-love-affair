@@ -8,9 +8,17 @@ import { HeroService } from './hero.service';
   selector: 'app-heroes',
   template: `
       <h2>My Heroes</h2>
+      <div>
+              <label>New Hero Name:</label> <input #heroName>
+              <button class="add-button" (click)="add(heroName.value); heroName.value='';">Add</button>
+      </div>
       <ul class="heroes">
             <li *ngFor="let hero of heroes" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
-                <span class="badge">{{ hero.id }}</span> {{ hero.name }}
+                <span class="badge">{{ hero.id }}</span>
+                <span>{{ hero.name }}</span>
+                <button class="delete-button" (click)="delete(hero); $event.stopPropagation();">
+                  x
+                </button>
             </li>
       </ul>
       <div *ngIf="selectedHero">
@@ -34,6 +42,15 @@ export class HeroesComponent implements OnInit {
     this.getHeroes();
   }
 
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.create(name).then(hero => {
+                    this.heroes.push(hero);
+                    this.selectedHero = null;
+    });
+  }
+
   getHeroes(): void {
     this.heroService.getHeroes().then(heroes => this.heroes = heroes);
   }
@@ -44,6 +61,14 @@ export class HeroesComponent implements OnInit {
 
   gotoDetail(): void {
     this.router.navigate(['/detail', this.selectedHero.id]);
+  }
+
+  delete(hero: Hero): void {
+    console.log(hero.name);
+    this.heroService.delete(hero.id).then(() => {
+                    this.heroes = this.heroes.filter(h => h !== hero);
+                    if (this.selectedHero === hero) { this.selectedHero = null; }
+    });
   }
 
 }

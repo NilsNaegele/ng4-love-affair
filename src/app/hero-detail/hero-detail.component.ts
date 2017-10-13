@@ -17,6 +17,7 @@ import 'rxjs/add/operator/switchMap';
       <input [(ngModel)]="hero.name" placeholder="name">
       </div>
       <div><label>description: </label>{{ hero.description }}</div>
+      <button (click)="save()">Save</button>
       <button (click)="goBack()">Back</button>
   </div>
   `,
@@ -28,16 +29,17 @@ export class HeroDetailComponent implements OnInit {
   constructor(private heroService: HeroService, private route: ActivatedRoute,
               private location: Location) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   this.route.paramMap.switchMap((params: ParamMap) => this.heroService.getHero(+params.get('id')))
                       .subscribe(hero => this.hero = hero);
               }
 
-  goBack() {
+  goBack(): void {
     this.location.back();
   }
 
-
-
+  save(): void {
+    this.heroService.update(this.hero).then(() => this.goBack());
+  }
 
 }
